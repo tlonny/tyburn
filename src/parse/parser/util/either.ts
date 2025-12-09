@@ -1,15 +1,29 @@
 import { parse } from "@src/parse/parse"
 import type { Parser, ParseInput, ParseResult } from "@src/parse/type"
 
-export const parserUtilEither = <T1, T2>(
-    parserFirst : Parser<T1>,
-    parserSecond: Parser<T2>
+type ParserUtilEitherParseResuleValue<TParsers extends readonly Parser<any>[]> =
+   TParsers[number] extends Parser<infer TValue>
+        ? TValue : never
+
+export const parserUtilEither = <const TParsers extends readonly Parser<any>[]>(
+    parsers: TParsers
 ) => (
         input : ParseInput
-    ) : ParseResult<T1 | T2> => {
-        const resultFirst = parse(parserFirst, input)
+    ) : ParseResult<ParserUtilEitherParseResuleValue<TParsers>> => {
+        let lastResult: ParseResult<ParserUtilEitherParseResuleValue<TParsers>> | null = null
 
-        return resultFirst.resultType === "ERROR"
-            ? parse(parserSecond, resultFirst.parsedInput)
-            : resultFirst
+        for (const parser of parsers) {
+            const result = parse(parser, input)
+            if (result.resultType !== "ERROR") {
+                return result
+            }
+
+            lastResult = result
+        }
+
+        if (lastResult === null) {
+            throw new Error("parserUtilEither is empty")
+        }
+
+        return lastResult
     }

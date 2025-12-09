@@ -12,31 +12,19 @@ const parserExprPostfixSubscriptTokenClose = parserWord("]")
 export const parserExprPostfixSubscript = (
     parserRoot : Parser<Expr>
 ) : Parser<(expr : Expr) => Expr> => parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserUtilTry(
-            parserUtilSequence(
+            parserUtilSequence([
                 parserWhitespace,
                 parserExprPostfixSubscriptTokenOpen,
-            )
+            ])
         ),
-        parserUtilMap(
-            parserUtilSequence(
-                parserWhitespace,
-                parserUtilMap(
-                    parserUtilSequence(
-                        parserRoot,
-                        parserUtilSequence(
-                            parserWhitespace,
-                            parserExprPostfixSubscriptTokenClose
-                        )
-                    ),
-                    ([x,]) => x
-                )
-            ),
-            ([, x]) => x
-        )
-    ),
-    ([, x]) => (expr) => ({
+        parserWhitespace,
+        parserRoot,
+        parserWhitespace,
+        parserExprPostfixSubscriptTokenClose
+    ]),
+    ([,, x]) => (expr) => ({
         exprType: "SUBSCRIPT",
         index: x,
         value: expr

@@ -7,18 +7,17 @@ import { parserUtilMap } from "@src/parse/parser/util/map"
 import { parserUtilSequence } from "@src/parse/parser/util/sequence"
 import type { Parser } from "@src/parse/type"
 
-const parserExprPrefixEither = [
+const parserExprPrefixEither = parserUtilEither([
     parserExprReference,
     parserExprNot
-]
-    .reduce(parserUtilEither)
+])
 
 export const parserExprPrefix = (params: {
     parserCurrent : Parser<Expr>
 }) : Parser<Expr> => parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserUtilMany(parserExprPrefixEither),
         params.parserCurrent
-    ),
+    ]),
     ([xs, expr]) => xs.reduceRight((l, r) => r(l), expr)
 )

@@ -17,25 +17,25 @@ const parserSymbolCharFollow = parserUtilChar({
 const parserDelim = parserWord("::")
 
 export const parserSymbol = parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserSymbolCharInitial,
         parserUtilMany(parserSymbolCharFollow)
-    ),
+    ]),
     ([x, xs]) => [x, ...xs].join("")
 )
 
 export const parserSymbolQualified = parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserSymbol,
         parserUtilMany(
             parserUtilMap(
-                parserUtilSequence(
+                parserUtilSequence([
                     parserDelim,
                     parserSymbol
-                ),
+                ]),
                 ([x, xs]) => [x, ...xs].join("")
             )
         )
-    ),
+    ]),
     ([x, xs]) => [x, ...xs].join("")
 )

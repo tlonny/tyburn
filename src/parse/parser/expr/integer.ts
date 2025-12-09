@@ -30,28 +30,23 @@ const parserExprIntegerDecCharFollow = parserUtilChar({
 })
 
 const parserExprIntegerHex : Parser<Expr> = parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserExprIntegerHexPrefix,
-        parserUtilMap(
-            parserUtilSequence(
-                parserExprIntegerCharHexInitial,
-                parserUtilMany(parserExprIntegerCharHexFollow)
-            ),
-            ([x, xs]) => [x, ...xs].join("")
-        )
-    ),
-    ([, x]) => ({
+        parserExprIntegerCharHexInitial,
+        parserUtilMany(parserExprIntegerCharHexFollow)
+    ]),
+    ([, x, xs]) => ({
         exprType: "INTEGER",
         base: "HEXADECIMAL",
-        value: x
+        value: [x, ...xs].join("")
     })
 )
 
 const parserExprIntegerDec : Parser<Expr> = parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserExprIntegerDecCharInitial,
         parserUtilMany(parserExprIntegerDecCharFollow)
-    ),
+    ]),
     ([x, xs]) => ({
         exprType: "INTEGER",
         base: "DECIMAL",
@@ -59,7 +54,7 @@ const parserExprIntegerDec : Parser<Expr> = parserUtilMap(
     })
 )
 
-export const parserExprInteger = parserUtilEither(
+export const parserExprInteger = parserUtilEither([
     parserExprIntegerHex,
     parserExprIntegerDec,
-)
+])

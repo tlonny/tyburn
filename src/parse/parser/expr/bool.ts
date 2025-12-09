@@ -8,10 +8,10 @@ const parserTrue = parserWord("true")
 const parserFalse = parserWord("false")
 
 export const parserExprBool : Parser<Expr> = parserUtilMap(
-    parserUtilEither(
+    parserUtilEither([
         parserTrue,
         parserFalse
-    ), x => ({
+    ]), x => ({
         exprType: "BOOL",
         value: x === "true" ? "TRUE" : "FALSE"
     })

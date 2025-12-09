@@ -11,24 +11,12 @@ const parserExprParensTokenClose = parserWord(")")
 export const parserExprParens = (
     parserTop : Parser<Expr>
 ) : Parser<Expr> => parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserExprParensTokenOpen,
-        parserUtilMap(
-            parserUtilSequence(
-                parserWhitespace,
-                parserUtilMap(
-                    parserUtilSequence(
-                        parserTop,
-                        parserUtilSequence(
-                            parserWhitespace,
-                            parserExprParensTokenClose
-                        )
-                    ),
-                    ([x,]) => x
-                )
-            ),
-            ([, x]) => x
-        )
-    ),
-    ([, x]) => x
+        parserWhitespace,
+        parserTop,
+        parserWhitespace,
+        parserExprParensTokenClose
+    ]),
+    ([,, expr]) => expr
 )

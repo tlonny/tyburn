@@ -9,20 +9,18 @@ import type { Parser } from "@src/parse/type"
 
 const parserExprPostfixEither = (params: {
     parserTop : Parser<Expr>,
-}) => [
+}) => parserUtilEither([
     parserExprPostfixSubscript,
     parserExprPostfixApplication,
-]
-    .map(x => x(params.parserTop))
-    .reduce(parserUtilEither)
+].map(x => x(params.parserTop)))
 
 export const parserExprPostfix = (params: {
     parserTop : Parser<Expr>,
     parserCurrent : Parser<Expr>
 }) : Parser<Expr> => parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         params.parserCurrent,
         parserUtilMany(parserExprPostfixEither(params))
-    ),
+    ]),
     ([expr, xs]) => xs.reduce((l, r) => r(l), expr)
 )

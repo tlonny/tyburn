@@ -11,22 +11,17 @@ const parserExprInfixMultiplyTokenOperator = parserWord("*")
 export const parserExprInfixMultiply = (
     parserNext : Parser<Expr>
 ) : Parser<(expr : Expr) => Expr> => parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserUtilTry(
-            parserUtilSequence(
+            parserUtilSequence([
                 parserWhitespace,
                 parserExprInfixMultiplyTokenOperator,
-            )
+            ])
         ),
-        parserUtilMap(
-            parserUtilSequence(
-                parserWhitespace,
-                parserNext
-            ),
-            ([, x]) => x
-        )
-    ),
-    ([, x]) => (expr) => ({
+        parserWhitespace,
+        parserNext
+    ]),
+    ([,, x]) => (expr) => ({
         exprType: "MULTIPLY",
         operandLeft: expr,
         operandRight: x

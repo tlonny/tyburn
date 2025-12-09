@@ -10,7 +10,7 @@ const TERMINATORS = new Set(["\n", "\r", ""])
 const parserToken = parserWord("#")
 
 export const parserStatementComment = parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserToken,
         parserUtilMany(
             parserUtilChar({
@@ -18,7 +18,7 @@ export const parserStatementComment = parserUtilMap(
                 test: c => !TERMINATORS.has(c)
             })
         )
-    ),
+    ]),
     ([, comment]) : StatementComment => ({
         statementType: "COMMENT",
         comment: comment.join(""),

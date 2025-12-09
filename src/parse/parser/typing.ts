@@ -1,31 +1,36 @@
-import type { Expr } from "@src/parse/parser/expr/type"
+import { parserSymbolQualified } from "@src/parse/parser/primitive/symbol"
 import { parserWhitespace } from "@src/parse/parser/primitive/whitespace"
 import { parserWord } from "@src/parse/parser/primitive/word"
 import { parserUtilEither } from "@src/parse/parser/util/either"
-import { parserUtilValue } from "@src/parse/parser/util/value"
 import { parserUtilMany } from "@src/parse/parser/util/many"
 import { parserUtilMap } from "@src/parse/parser/util/map"
 import { parserUtilSequence } from "@src/parse/parser/util/sequence"
 import { parserUtilTry } from "@src/parse/parser/util/try"
-import type { Parser } from "@src/parse/type"
+import { parserUtilValue } from "@src/parse/parser/util/value"
+import type { ParseInput, Parser } from "@src/parse/type"
 
-const parserExprPostfixApplicationTokenOpen = parserWord("(")
-const parserExprPostfixApplicationTokenClose = parserWord(")")
-const parserExprPostfixApplicationSeparator = parserWord(",")
+export type Typing = {
+    name: string
+    arguments: Typing[]
+}
 
-export const parserExprPostfixApplication = (
-    parserRoot : Parser<Expr>
-) : Parser<(expr : Expr) => Expr> => parserUtilMap(
+const parserTypingTokenOpen = parserWord("<")
+const parserTypingTokenClose = parserWord(">")
+const parserTypingTokenSeparator = parserWord(",")
+
+const parserTypingDeferred = (x : ParseInput) => parserTyping(x)
+
+export const parserTypingTypeArgs : Parser<Typing[]> = parserUtilMap(
     parserUtilSequence([
         parserUtilTry(
             parserUtilSequence([
                 parserWhitespace,
-                parserExprPostfixApplicationTokenOpen,
+                parserTypingTokenOpen,
             ])
         ),
         parserWhitespace,
         parserUtilEither([
-            parserUtilMap(parserRoot, x => [x]),
+            parserUtilMap(parserTypingDeferred, x => [x]),
             parserUtilValue([])
         ]),
         parserUtilMany(
@@ -34,21 +39,28 @@ export const parserExprPostfixApplication = (
                     parserUtilTry(
                         parserUtilSequence([
                             parserWhitespace,
-                            parserExprPostfixApplicationSeparator
+                            parserTypingTokenSeparator
                         ])
                     ),
                     parserWhitespace,
-                    parserRoot
+                    parserTypingDeferred
                 ]),
                 ([,, x]) => x
             )
         ),
         parserWhitespace,
-        parserExprPostfixApplicationTokenClose
+        parserTypingTokenClose
     ]),
-    ([,, xs, ys]) => (expr) => ({
-        exprType: "APPLICATION",
-        arguments: [... xs, ... ys],
-        value: expr
-    })
+    ([,, xs, ys]) => [...xs, ...ys]
+)
+
+export const parserTyping : Parser<Typing> = parserUtilMap(
+    parserUtilSequence([
+        parserSymbolQualified,
+        parserUtilEither([
+            parserTypingTypeArgs,
+            parserUtilValue([])
+        ])
+    ]),
+    ([sym, args]) => ({name: sym, arguments: args})
 )

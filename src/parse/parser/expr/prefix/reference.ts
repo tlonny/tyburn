@@ -8,10 +8,10 @@ import { parserWhitespace } from "@src/parse/parser/primitive/whitespace"
 const parserExprPrefixReferenceToken = parserWord("&")
 
 export const parserExprReference : Parser<(expr : Expr) => Expr> = parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserExprPrefixReferenceToken,
         parserWhitespace
-    ),
+    ]),
     () => (expr) => ({
         exprType: "REFERENCE",
         value: expr

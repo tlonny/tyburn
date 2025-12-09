@@ -9,10 +9,10 @@ const parserExprInfixChain = (params: {
     parserInfix: (parserNext : Parser<Expr>) => Parser<(expr : Expr) => Expr>,
     parserNext: Parser<Expr>
 }) : Parser<Expr> => parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         params.parserNext,
         parserUtilMany(params.parserInfix(params.parserNext))
-    ),
+    ]),
     ([expr, fns]) => fns.reduce((expr, fn) => fn(expr), expr)
 )
 

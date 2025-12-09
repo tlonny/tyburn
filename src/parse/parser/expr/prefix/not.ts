@@ -8,10 +8,10 @@ import { parserWhitespace } from "@src/parse/parser/primitive/whitespace"
 const parserExprPrefixNotToken = parserWord("!")
 
 export const parserExprNot : Parser<(expr : Expr) => Expr> = parserUtilMap(
-    parserUtilSequence(
+    parserUtilSequence([
         parserExprPrefixNotToken,
         parserWhitespace
-    ),
+    ]),
     () => (expr) => ({
         exprType: "NOT",
         value: expr

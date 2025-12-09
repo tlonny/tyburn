@@ -14,15 +14,13 @@ const parserExprDeferred = (x : ParseInput) => parserExpr(x)
 
 const parserExprBaseEither = (params : {
     parserTop: Parser<Expr>
-}) => [
+}) => parserUtilEither([
     () => parserExprBool,
     () => parserExprInteger,
     () => parserExprVariable,
     parserExprParens,
     () => parserUtilError<Expr>("Expected: expression")
-]
-    .map(x => x(params.parserTop))
-    .reduce(parserUtilEither)
+].map(x => x(params.parserTop)))
 
 export const parserExpr : Parser<Expr> = parserExprInfix({
     parserCurrent: parserExprPostfix({
