@@ -16,7 +16,7 @@ test("parserExprPostfix chains multiple subscript postfixes and handles whitespa
         parserCurrent: parserExprInteger
     })
 
-    const input : ParseInput = { data: "123 [ 0 ]   [ 1 ] tail", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "123 [ 0 ]   [ 1 ] tail", index: 0 }
     const result = parse(parser, input) as ParseResultValue<Expr>
 
     expect(result.resultType).toBe("VALUE")
@@ -50,7 +50,7 @@ test("parserExprPostfix fatals when a postfix parser consumes input but fails", 
         parserCurrent: parserExprInteger
     })
 
-    const input : ParseInput = { data: "123[", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "123[", index: 0 }
     const result = parse(parser, input) as ParseResultFatal
 
     expect(result.resultType).toBe("FATAL")

@@ -12,7 +12,7 @@ import { expect, test } from "bun:test"
 const parser = parserExprInfix({ parserCurrent: parserExprInteger })
 
 test("parserExprInfix leaves the underlying parser output untouched when no operator is present", () => {
-    const input : ParseInput = { data: "42tail", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "42tail", index: 0 }
     const result = parse(parser, input) as ParseResultValue<Expr>
 
     expect(result.resultType).toBe("VALUE")
@@ -25,7 +25,7 @@ test("parserExprInfix leaves the underlying parser output untouched when no oper
 })
 
 test("parserExprInfix chains multiple multiply operators left-associatively", () => {
-    const input : ParseInput = { data: "2*3*0x10next", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "2*3*0x10next", index: 0 }
     const result = parse(parser, input) as ParseResultValue<Expr>
 
     expect(result.resultType).toBe("VALUE")
@@ -54,7 +54,7 @@ test("parserExprInfix chains multiple multiply operators left-associatively", ()
 })
 
 test("parserExprInfix propagates fatal errors from the underlying infix parsers", () => {
-    const input : ParseInput = { data: "7*", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "7*", index: 0 }
     const result = parse(parser, input) as ParseResultFatal
     expect(result.resultType).toBe("FATAL")
 })

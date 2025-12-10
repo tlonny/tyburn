@@ -13,7 +13,7 @@ import { expect, test } from "bun:test"
 const parser = parserExprParens(parserExpr)
 
 test("parserExprParens unwraps the expression inside parentheses", () => {
-    const input : ParseInput = { data: "(123)tail", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "(123)tail", index: 0 }
     const result = parse(parser, input) as ParseResultValue<Expr>
     expect(result.resultType).toBe("VALUE")
     expect(result.value).toEqual({
@@ -25,7 +25,7 @@ test("parserExprParens unwraps the expression inside parentheses", () => {
 })
 
 test("parserExprParens allows whitespace and nested parentheses", () => {
-    const input : ParseInput = { data: "(   (0xdead)   )next", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "(   (0xdead)   )next", index: 0 }
     const result = parse(parser, input) as ParseResultValue<Expr>
     expect(result.resultType).toBe("VALUE")
     expect(result.value).toEqual({
@@ -37,14 +37,14 @@ test("parserExprParens allows whitespace and nested parentheses", () => {
 })
 
 test("parserExprParens errors when the opening token is missing", () => {
-    const input : ParseInput = { data: "123)", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "123)", index: 0 }
     const result = parse(parser, input) as ParseResultError
     expect(result.resultType).toBe("ERROR")
     expect(result.parsedInput.index).toBe(0)
 })
 
 test("parserExprParens fatals when the closing parenthesis is missing", () => {
-    const input : ParseInput = { data: "(123", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "(123", index: 0 }
     const result = parse(parser, input) as ParseResultFatal
     expect(result.resultType).toBe("FATAL")
 })

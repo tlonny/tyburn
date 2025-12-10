@@ -9,7 +9,7 @@ import type {
 import { test, expect } from "bun:test"
 
 test("parserExprBool correctly parses true", () => {
-    const input : ParseInput = { data: "true!", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "true!", index: 0 }
     const result = parse(parserExprBool, input) as ParseResultValue<ExprBool>
     expect(result.resultType).toBe("VALUE")
     expect(result.value).toEqual({ exprType: "BOOL", value: "TRUE" })
@@ -17,7 +17,7 @@ test("parserExprBool correctly parses true", () => {
 })
 
 test("parserExprBool correctly parses false", () => {
-    const input : ParseInput = { data: "false!", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "false!", index: 0 }
     const result = parse(parserExprBool, input) as ParseResultValue<ExprBool>
     expect(result.resultType).toBe("VALUE")
     expect(result.value).toEqual({ exprType: "BOOL", value: "FALSE" })
@@ -25,14 +25,14 @@ test("parserExprBool correctly parses false", () => {
 })
 
 test("parserExprBool correctly errors with a partial match", () => {
-    const input : ParseInput = { data: "falsd", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "falsd", index: 0 }
     const result = parse(parserExprBool, input) as ParseResultError
     expect(result.resultType).toBe("ERROR")
     expect(input.data.slice(result.parsedInput.index)).toEqual("falsd")
 })
 
 test("parserExprBool correctly errors with no match", () => {
-    const input : ParseInput = { data: "ppp", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "ppp", index: 0 }
     const result = parse(parserExprBool, input) as ParseResultError
     expect(result.resultType).toBe("ERROR")
     expect(input.data.slice(result.parsedInput.index)).toEqual("ppp")

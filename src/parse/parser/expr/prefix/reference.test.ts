@@ -11,7 +11,7 @@ const EXPR : Expr = {
 }
 
 test("parserExprReference parses the prefix and returns a wrapper fn", () => {
-    const input : ParseInput = { data: "&foo", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "&foo", index: 0 }
     const result = parse(parserExprReference, input) as ParseResultValue<(expr : Expr) => Expr>
     expect(result.resultType).toBe("VALUE")
 

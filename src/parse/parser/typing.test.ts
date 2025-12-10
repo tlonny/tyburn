@@ -11,7 +11,6 @@ test("parserTyping parses type arguments while ignoring surrounding whitespace",
     const input : ParseInput = {
         data: "Result  < Success ,Failure >tail",
         index: 0,
-        position: [0, 0],
     }
 
     const result = parse(parserTyping, input) as ParseResultValue<Typing>
@@ -31,7 +30,6 @@ test("parserTyping parses a primitive type that has no type arguments", () => {
     const input : ParseInput = {
         data: "Boolean trailing",
         index: 0,
-        position: [0, 0],
     }
 
     const result = parse(parserTyping, input) as ParseResultValue<Typing>
@@ -48,7 +46,6 @@ test("parserTyping fatals when type argument parentheses never close", () => {
     const input : ParseInput = {
         data: "Option<Value",
         index: 0,
-        position: [0, 0],
     }
 
     const result = parse(parserTyping, input) as ParseResultFatal
@@ -60,7 +57,6 @@ test("parserTyping fatals when there's a trailing comma in the type arguments li
     const input : ParseInput = {
         data: "Option<Value, >",
         index: 0,
-        position: [0, 0],
     }
 
     const result = parse(parserTyping, input) as ParseResultFatal

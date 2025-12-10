@@ -19,7 +19,7 @@ const EXPR : Expr = {
 const parser = parserExprPostfixSubscript(parserExpr)
 
 test("parserExprPostfixSubscript parses a subscript and returns a wrapper fn", () => {
-    const input : ParseInput = { data: "[0]tail", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "[0]tail", index: 0 }
     const result = parse(parser, input) as ParseResultValue<(expr : Expr) => Expr>
     expect(result.resultType).toBe("VALUE")
 
@@ -36,7 +36,7 @@ test("parserExprPostfixSubscript parses a subscript and returns a wrapper fn", (
 })
 
 test("parserExprPostfixSubscript handles whitespace around the index expression", () => {
-    const input : ParseInput = { data: "[   123   ]next", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "[   123   ]next", index: 0 }
     const result = parse(parser, input) as ParseResultValue<(expr : Expr) => Expr>
     expect(result.resultType).toBe("VALUE")
     expect(input.data.slice(result.parsedInput.index)).toEqual("next")
@@ -53,14 +53,14 @@ test("parserExprPostfixSubscript handles whitespace around the index expression"
 })
 
 test("parserExprPostfixSubscript errors when the postfix token is missing", () => {
-    const input : ParseInput = { data: "foo", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "foo", index: 0 }
     const result = parse(parser, input) as ParseResultError
     expect(result.resultType).toBe("ERROR")
     expect(result.parsedInput.index).toBe(0)
 })
 
 test("parserExprPostfixSubscript fatals when the closing bracket is missing", () => {
-    const input : ParseInput = { data: "[0", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "[0", index: 0 }
     const result = parse(parser, input) as ParseResultFatal
     expect(result.resultType).toBe("FATAL")
 })

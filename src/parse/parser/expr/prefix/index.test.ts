@@ -11,7 +11,7 @@ import { expect, test } from "bun:test"
 
 test("parserExprPrefix chains multiple reference prefixes and handles whitespace", () => {
     const parser = parserExprPrefix({ parserCurrent: parserExprInteger })
-    const input : ParseInput = { data: "&& & 123", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "&& & 123", index: 0 }
     const result = parse(parser, input) as ParseResultValue<Expr>
 
     expect(result.resultType).toBe("VALUE")
@@ -34,7 +34,7 @@ test("parserExprPrefix chains multiple reference prefixes and handles whitespace
 
 test("parserExprPrefix combines different prefix operators in the correct order", () => {
     const parser = parserExprPrefix({ parserCurrent: parserExprInteger })
-    const input : ParseInput = { data: "! &123", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "! &123", index: 0 }
     const result = parse(parser, input) as ParseResultValue<Expr>
 
     expect(result.resultType).toBe("VALUE")
@@ -54,7 +54,7 @@ test("parserExprPrefix combines different prefix operators in the correct order"
 
 test("parserExprPrefix fatals when prefixes are parsed but the following expression fails", () => {
     const parser = parserExprPrefix({ parserCurrent: parserExprInteger })
-    const input : ParseInput = { data: "&!", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "&!", index: 0 }
     const result = parse(parser, input) as ParseResultFatal
 
     expect(result.resultType).toBe("FATAL")

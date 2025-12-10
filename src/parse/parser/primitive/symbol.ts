@@ -1,18 +1,24 @@
-import { parserUtilChar } from "@src/parse/parser/util/char"
+import { parserUtilPredicate } from "@src/parse/parser/util/predicate"
 import { parserWord } from "@src/parse/parser/primitive/word"
 import { parserUtilMany } from "@src/parse/parser/util/many"
 import { parserUtilMap } from "@src/parse/parser/util/map"
 import { parserUtilSequence } from "@src/parse/parser/util/sequence"
+import { parserUtilChar } from "@src/parse/parser/util/char"
+import { parserUtilTry } from "@src/parse/parser/util/try"
 
-const parserSymbolCharInitial = parserUtilChar({
-    name: "SYMBOL::INITIAL",
-    test: (x) => /[a-zA-Z_]/.test(x)
-})
+const parserSymbolCharInitial = parserUtilTry(
+    parserUtilPredicate(parserUtilChar, {
+        name: "SYMBOL::INITIAL",
+        test: (x) => /[a-zA-Z_]/.test(x)
+    })
+)
 
-const parserSymbolCharFollow = parserUtilChar({
-    test: (x) => /[a-zA-Z0-9_]/.test(x),
-    name: "SYMBOL::FOLLOW",
-})
+const parserSymbolCharFollow = parserUtilTry(
+    parserUtilPredicate(parserUtilChar, {
+        test: (x) => /[a-zA-Z0-9_]/.test(x),
+        name: "SYMBOL::FOLLOW",
+    })
+)
 
 const parserDelim = parserWord("::")
 

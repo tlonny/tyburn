@@ -8,7 +8,7 @@ import type {
 import { test, expect } from "bun:test"
 
 test("parserWord correctly parses a target word", () => {
-    const input : ParseInput = { data: "helloworld", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "helloworld", index: 0 }
     const result = parse(parserWord("hello"), input) as ParseResultValue<string>
     expect(result.resultType).toBe("VALUE")
     expect(result.value).toEqual("hello")
@@ -16,7 +16,7 @@ test("parserWord correctly parses a target word", () => {
 })
 
 test("parserWord errors when target word doesn't match", () => {
-    const input : ParseInput = { data: "helloworld", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "helloworld", index: 0 }
     const result = parse(parserWord("hellp"), input) as ParseResultError
     expect(result.resultType).toBe("ERROR")
     expect(result.parsedInput.index).toEqual(0)

@@ -13,7 +13,7 @@ import { expect, test } from "bun:test"
 const parser = parserExprInfixMultiply(parserExprInteger)
 
 test("parserExprInfixMultiply builds a MULTIPLY expression and trims whitespace around the operator", () => {
-    const input : ParseInput = { data: "   *   0xF00Dtail", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "   *   0xF00Dtail", index: 0 }
     const result = parse(parser, input) as ParseResultValue<(expr : Expr) => Expr>
 
     expect(result.resultType).toBe("VALUE")
@@ -38,16 +38,16 @@ test("parserExprInfixMultiply builds a MULTIPLY expression and trims whitespace 
 })
 
 test("parserExprInfixMultiply reports an error without consuming input when the operator is missing", () => {
-    const input : ParseInput = { data: "   next", index: 0, position: [0, 0] }
-    const result = parse(parser, input) as ParseResultError<(expr : Expr) => Expr>
+    const input : ParseInput = { data: "   next", index: 0 }
+    const result = parse(parser, input) as ParseResultError
 
     expect(result.resultType).toBe("ERROR")
     expect(result.parsedInput.index).toBe(input.index)
 })
 
 test("parserExprInfixMultiply fatals when the operator is parsed but the right expression fails", () => {
-    const input : ParseInput = { data: "*   ", index: 0, position: [0, 0] }
-    const result = parse(parser, input) as ParseResultFatal<(expr : Expr) => Expr>
+    const input : ParseInput = { data: "*   ", index: 0 }
+    const result = parse(parser, input) as ParseResultFatal
 
     expect(result.resultType).toBe("FATAL")
     expect(result.parsedInput.index).toBeGreaterThan(input.index)

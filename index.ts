@@ -8,10 +8,8 @@ const input : ParseInput = {
         loop {
             # this is a comment
             var foo;
-        }
-    `,
-    index: 0,
-    position: [0, 0]
+        }`,
+    index: 0
 }
 
 console.log(

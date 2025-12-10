@@ -8,7 +8,7 @@ import type { StatementComment } from "@src/parse/parser/statement/type"
 import { parserStatementComment } from "@src/parse/parser/statement/comment"
 
 test("parserStatementComment parses a comment", () => {
-    const input : ParseInput = { data: "#this#is a comment", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "#this#is a comment", index: 0 }
     const result = parse(parserStatementComment, input) as ParseResultValue<StatementComment>
     expect(result.resultType).toBe("VALUE")
     expect(result.value).toEqual({
@@ -19,7 +19,7 @@ test("parserStatementComment parses a comment", () => {
 })
 
 test("parserStatementComment parses a comment terminated by a newline #1", () => {
-    const input : ParseInput = { data: "#this is a comment\nyes", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "#this is a comment\nyes", index: 0 }
     const result = parse(parserStatementComment, input) as ParseResultValue<StatementComment>
     expect(result.resultType).toBe("VALUE")
     expect(result.value).toEqual({
@@ -30,7 +30,7 @@ test("parserStatementComment parses a comment terminated by a newline #1", () =>
 })
 
 test("parserStatementComment parses a comment terminated by a newline #2", () => {
-    const input : ParseInput = { data: "#this is a comment\r\nyes", index: 0, position: [0, 0] }
+    const input : ParseInput = { data: "#this is a comment\r\nyes", index: 0 }
     const result = parse(parserStatementComment, input) as ParseResultValue<StatementComment>
     expect(result.resultType).toBe("VALUE")
     expect(result.value).toEqual({

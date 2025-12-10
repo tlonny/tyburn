@@ -1,7 +1,6 @@
 export type ParseInput = {
     data: string
     index: number
-    position: [number, number]
 }
 
 export type ParseResultValue<T> = {
