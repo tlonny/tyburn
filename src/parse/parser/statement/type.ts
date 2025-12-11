@@ -8,8 +8,17 @@ export type StatementVariableDefinition = {
     expression: Expr | null
 }
 
-export type StatementLoop = {
-    statementType: "LOOP",
+export type StatementBreak = {
+    statementType: "BREAK",
+}
+
+export type StatementContinue = {
+    statementType: "CONTINUE",
+}
+
+export type StatementWhile = {
+    statementType: "WHILE",
+    condition: Expr
     statements: Statement[]
 }
 
@@ -20,5 +29,7 @@ export type StatementComment = {
 
 export type Statement =
     | StatementComment
-    | StatementLoop
+    | StatementBreak
+    | StatementContinue
+    | StatementWhile
     | StatementVariableDefinition

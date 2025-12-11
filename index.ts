@@ -5,8 +5,9 @@ import { parserStatement } from "@src/parse/parser/statement"
 
 const input : ParseInput = {
     data: `
-        loop {
+        while (false) {
             # this is a comment
+            while((x[5] * 3)) { break; }
             var foo;
         }`,
     index: 0
