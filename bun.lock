@@ -4,7 +4,7 @@
     "": {
       "name": "tyburn",
       "dependencies": {
-        "astroparse": "^0.0.8",
+        "astroparse": "^0.0.10",
       },
       "devDependencies": {
         "@stylistic/eslint-plugin": "^5.5.0",
@@ -85,7 +85,7 @@
 
     "argparse": ["argparse@2.0.1", "", {}, "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="],
 
-    "astroparse": ["astroparse@0.0.8", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-kIzs0TdTq1YoqYlz1xvkM1VUM40kmDcjYsbeaWZsRjiIc86ASG0ry34Lb/5aZT0zE+MWGr3nPrbCid28wv+x+w=="],
+    "astroparse": ["astroparse@0.0.10", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-QVfX/AX3jrGzYy2n/gCHOA1IMTOh2v6xjYjlIOdPxbhfoWP3pDrGiViYdoaDYU3Ut5I4eQTXT2GJz4YfKDodyA=="],
 
     "balanced-match": ["balanced-match@1.0.2", "", {}, "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="],
 

@@ -1,13 +1,14 @@
 import type { ParserStatement } from "@src/parser/ast"
-import { parserAtomMany, parserAtomMapValue, parserAtomPredicate, parserAtomSequence, parserAtomCharacter, parserAtomTry, parserText, parserAtomMapError } from "astroparse"
+import { parserToken } from "@src/parser/token"
+import { parserAtomMany, parserAtomMapValue, parserAtomPredicate, parserAtomSequence, parserAtomCharacter, parserAtomTry, parserAtomMapError } from "astroparse"
 
 const TERMINATORS = new Set(["\n", "\r", ""])
 
-const parserToken = parserText("#")
+const parserTokenComment = parserToken("#")
 
 export const parserStatementComment = parserAtomMapValue(
     parserAtomSequence([
-        parserToken,
+        parserTokenComment,
         parserAtomMapError(
             parserAtomMany(
                 parserAtomTry(

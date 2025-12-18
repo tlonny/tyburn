@@ -1,5 +1,3 @@
-import type { ParserAtomCharacterParseResultError, ParserAtomEndParseResultError, ParserTextParseResultError } from "astroparse"
-
 export type ParserErrorExprMissing = {
     errorType: "TYBURN::EXPR_MISSING"
 }
@@ -8,19 +6,21 @@ export type ParserErrorStatementMissing = {
     errorType: "TYBURN::STATEMENT_MISSING"
 }
 
-export type ParserErrorSymbolCharacterInvalid = {
-    errorType: "TYBURN::SYMBOL_CHARACTER_INVALID"
+export type ParserErrorTokenInvalid = {
+    errorType: "TYBURN::TOKEN_INVALID"
 }
 
-export type ParserErrorDigitCharacterInvalid = {
-    errorType: "TYBURN::DIGIT_CHARACTER_INVALID"
+export type ParserErrorSymbolInvalid = {
+    errorType: "TYBURN::SYMBOL_INVALID"
+}
+
+export type ParserErrorDigitInvalid = {
+    errorType: "TYBURN::DIGIT_INVALID"
 }
 
 export type ParserError =
-    | ParserAtomCharacterParseResultError
-    | ParserAtomEndParseResultError
-    | ParserTextParseResultError
-    | ParserErrorDigitCharacterInvalid
-    | ParserErrorSymbolCharacterInvalid
+    | ParserErrorDigitInvalid
+    | ParserErrorSymbolInvalid
+    | ParserErrorTokenInvalid
     | ParserErrorExprMissing
     | ParserErrorStatementMissing

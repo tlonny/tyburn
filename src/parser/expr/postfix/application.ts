@@ -1,10 +1,11 @@
 import type { ParserExpr } from "@src/parser/ast"
 import type { ParserError } from "@src/parser/error"
-import { parserText, type Parser, parserAtomMapValue, parserAtomSequence, parserAtomTry, parserWhitespace, parserAtomEither, parserAtomValue, parserAtomMany } from "astroparse"
+import { parserToken } from "@src/parser/token"
+import { type Parser, parserAtomMapValue, parserAtomSequence, parserAtomTry, parserWhitespace, parserAtomEither, parserAtomValue, parserAtomMany } from "astroparse"
 
-const parserExprPostfixApplicationTokenOpen = parserText("(")
-const parserExprPostfixApplicationTokenClose = parserText(")")
-const parserExprPostfixApplicationSeparator = parserText(",")
+const parserExprPostfixApplicationTokenOpen = parserToken("(")
+const parserExprPostfixApplicationTokenClose = parserToken(")")
+const parserExprPostfixApplicationSeparator = parserToken(",")
 
 export const parserExprPostfixApplication = (
     parserRoot : Parser<ParserExpr, ParserError>

@@ -2,13 +2,14 @@ import type { ParserStatement } from "@src/parser/ast"
 import type { ParserError } from "@src/parser/error"
 import { parserExpr } from "@src/parser/expr"
 import { parserBlock } from "@src/parser/statement/block"
-import { parserAtomMapValue, parserAtomSequence, parserText, parserWhitespace, type Parser } from "astroparse"
+import { parserToken } from "@src/parser/token"
+import { parserAtomMapValue, parserAtomSequence, parserWhitespace, type Parser } from "astroparse"
 
-const parseTokenWhile = parserText("while")
-const parseTokenParensOpen = parserText("(")
-const parseTokenParensClose = parserText(")")
-const parseTokenBraceOpen = parserText("{")
-const parseTokenBraceClose = parserText("}")
+const parseTokenWhile = parserToken("while")
+const parseTokenParensOpen = parserToken("(")
+const parseTokenParensClose = parserToken(")")
+const parseTokenBraceOpen = parserToken("{")
+const parseTokenBraceClose = parserToken("}")
 
 export const parserStatementWhile = (params : {
     parserStatement : Parser<ParserStatement, ParserError>

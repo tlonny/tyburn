@@ -1,11 +1,12 @@
 import type { ParserTyping } from "@src/parser/ast"
 import type { ParserError } from "@src/parser/error"
 import { parserSymbol } from "@src/parser/symbol"
-import { parserAtomEither, parserAtomMany, parserAtomMapValue, parserAtomSequence, parserAtomTry, parserAtomValue, parserText, parserWhitespace, type ParseInput, type Parser } from "astroparse"
+import { parserToken } from "@src/parser/token"
+import { parserAtomEither, parserAtomMany, parserAtomMapValue, parserAtomSequence, parserAtomTry, parserAtomValue, parserWhitespace, type ParseInput, type Parser } from "astroparse"
 
-const parserTypingTokenOpen = parserText("<")
-const parserTypingTokenClose = parserText(">")
-const parserTypingTokenSeparator = parserText(",")
+const parserTypingTokenOpen = parserToken("<")
+const parserTypingTokenClose = parserToken(">")
+const parserTypingTokenSeparator = parserToken(",")
 
 const parserTypingDeferred = (x : ParseInput) => parserTyping(x)
 

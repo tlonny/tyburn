@@ -1,7 +1,8 @@
 import type { ParserExpr } from "@src/parser/ast"
-import { parserAtomMapValue, parserAtomSequence, parserText, parserWhitespace } from "astroparse"
+import { parserToken } from "@src/parser/token"
+import { parserAtomMapValue, parserAtomSequence, parserWhitespace } from "astroparse"
 
-const parserExprPrefixNotToken = parserText("!")
+const parserExprPrefixNotToken = parserToken("!")
 
 export const parserExprNot = parserAtomMapValue(
     parserAtomSequence([

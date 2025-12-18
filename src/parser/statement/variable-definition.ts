@@ -1,13 +1,14 @@
 import type { ParserStatement } from "@src/parser/ast"
 import { parserExpr } from "@src/parser/expr"
 import { parserSymbol } from "@src/parser/symbol"
+import { parserToken } from "@src/parser/token"
 import { parserTyping } from "@src/parser/typing"
-import { parserAtomEither, parserAtomMapValue, parserAtomSequence, parserAtomTry, parserAtomValue, parserText, parserWhitespace } from "astroparse"
+import { parserAtomEither, parserAtomMapValue, parserAtomSequence, parserAtomTry, parserAtomValue, parserWhitespace } from "astroparse"
 
-const parserTokenVar = parserText("var")
-const parserTokenTypeAssignment = parserText(":")
-const parserTokenValueAssignment = parserText("=")
-const parserTokenEnd = parserText(";")
+const parserTokenVar = parserToken("var")
+const parserTokenTypeAssignment = parserToken(":")
+const parserTokenValueAssignment = parserToken("=")
+const parserTokenEnd = parserToken(";")
 
 export const parserStatementVariableDefinition = parserAtomMapValue(
     parserAtomSequence([

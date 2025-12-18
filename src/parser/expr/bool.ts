@@ -1,8 +1,9 @@
 import type { ParserExpr } from "@src/parser/ast"
-import { parserText, parserAtomEither, parserAtomMapValue } from "astroparse"
+import { parserToken } from "@src/parser/token"
+import { parserAtomEither, parserAtomMapValue } from "astroparse"
 
-const parserTrue = parserText("true")
-const parserFalse = parserText("false")
+const parserTrue = parserToken("true")
+const parserFalse = parserToken("false")
 
 export const parserExprBool = parserAtomMapValue(
     parserAtomEither([

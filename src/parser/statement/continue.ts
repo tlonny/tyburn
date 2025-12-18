@@ -1,8 +1,9 @@
 import type { ParserStatement } from "@src/parser/ast"
-import { parserText, parserAtomSequence, parserWhitespace, parserAtomMapValue } from "astroparse"
+import { parserToken } from "@src/parser/token"
+import { parserAtomSequence, parserWhitespace, parserAtomMapValue } from "astroparse"
 
-const parserTokenContinue = parserText("continue")
-const parserTokenEnd = parserText(";")
+const parserTokenContinue = parserToken("continue")
+const parserTokenEnd = parserToken(";")
 
 export const parserStatementContinue = parserAtomMapValue(
     parserAtomSequence([

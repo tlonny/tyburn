@@ -1,16 +1,29 @@
 import type { ParserExpr } from "@src/parser/ast"
 import type { ParserError } from "@src/parser/error"
-import { parserText, parserAtomTry, parserAtomPredicate, parserAtomSequence, parserAtomMany, parserAtomEither, parserAtomCharacter, type ParserAtomPredicatePredicateResult, parserAtomMapValue } from "astroparse"
+import { parserToken } from "@src/parser/token"
+import {
+    parserAtomTry,
+    parserAtomPredicate,
+    parserAtomSequence,
+    parserAtomMany,
+    parserAtomEither,
+    parserAtomCharacter,
+    parserAtomMapValue,
+    parserAtomMapError
+} from "astroparse"
 
-const parserExprIntegerHexPrefix = parserText("0x")
+const parserExprIntegerHexPrefix = parserToken("0x")
 
-const parserExprIntegerCharacter = (regex : RegExp) => parserAtomTry(
-    parserAtomPredicate(
-        parserAtomCharacter,
-        (c) : ParserAtomPredicatePredicateResult<ParserError> => regex.test(c)
-            ? { success: true }
-            : { success: false, error: { errorType: "TYBURN::DIGIT_CHARACTER_INVALID"} }
-    )
+const parserExprIntegerCharacter = (regex : RegExp) => parserAtomMapError(
+    parserAtomTry(
+        parserAtomPredicate(
+            parserAtomCharacter,
+            (c) => regex.test(c)
+                ? { success: true }
+                : { success: false, error: null }
+        )
+    ),
+    () : ParserError => ({ errorType: "TYBURN::DIGIT_INVALID" })
 )
 
 const parserExprIntegerCharHexInitial = parserExprIntegerCharacter(/[0-9A-F]/i)

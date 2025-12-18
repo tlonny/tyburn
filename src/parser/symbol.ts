@@ -7,30 +7,31 @@ import {
     parserAtomSequence,
     parserAtomCharacter,
     parserAtomTry,
-    parserText,
     type Parser,
-    type ParserAtomPredicatePredicateResult
+    parserAtomMapError,
 } from "astroparse"
+
+import { parserToken } from "@src/parser/token"
 
 const parserSymbolCharInitial = parserAtomTry(
     parserAtomPredicate(
         parserAtomCharacter,
-        (x) : ParserAtomPredicatePredicateResult<ParserError> => /[a-zA-Z_]/.test(x)
+        (x) => /[a-zA-Z_]/.test(x)
             ? { success: true }
-            : { success: false, error : { errorType: "TYBURN::SYMBOL_CHARACTER_INVALID" } }
+            : { success: false, error : null }
     )
 )
 
 const parserSymbolCharFollow = parserAtomTry(
     parserAtomPredicate(
         parserAtomCharacter,
-        (x) : ParserAtomPredicatePredicateResult<ParserError> => /[a-zA-Z0-9_]/.test(x)
+        (x) => /[a-zA-Z0-9_]/.test(x)
             ? { success: true }
-            : { success: false, error : { errorType: "TYBURN::SYMBOL_CHARACTER_INVALID" } }
+            : { success: false, error : null }
     )
 )
 
-const parserDelim = parserText("::")
+const parserDelim = parserToken("::")
 
 const parserSymbolChunk = parserAtomMapValue(
     parserAtomSequence([
@@ -40,25 +41,28 @@ const parserSymbolChunk = parserAtomMapValue(
     ([x, xs]) => [x, ...xs].join("")
 )
 
-export const parserSymbol : Parser<ParserSymbol, ParserError> = parserAtomMapValue(
-    parserAtomSequence([
-        parserSymbolChunk,
-        parserAtomMany(
-            parserAtomMapValue(
-                parserAtomSequence([
-                    parserDelim,
-                    parserSymbolChunk
-                ]),
-                ([x, xs]) => [x, ...xs].join("")
+export const parserSymbol : Parser<ParserSymbol, ParserError> = parserAtomMapError(
+    parserAtomMapValue(
+        parserAtomSequence([
+            parserSymbolChunk,
+            parserAtomMany(
+                parserAtomMapValue(
+                    parserAtomSequence([
+                        parserDelim,
+                        parserSymbolChunk
+                    ]),
+                    ([x, xs]) => [x, ...xs].join("")
+                )
             )
-        )
-    ]),
-    ([x, xs]) : ParserSymbol => {
-        const chunks = [x, ...xs]
+        ]),
+        ([x, xs]) : ParserSymbol => {
+            const chunks = [x, ...xs]
 
-        return {
-            name: chunks[chunks.length - 1] as string,
-            path: chunks.slice(0, chunks.length - 2)
+            return {
+                name: chunks[chunks.length - 1] as string,
+                path: chunks.slice(0, chunks.length - 2)
+            }
         }
-    }
+    ),
+    () : ParserError => ({ errorType: "TYBURN::SYMBOL_INVALID" })
 )
