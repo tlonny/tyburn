@@ -12,5 +12,8 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "astroparse": "^0.0.8"
   }
 }
