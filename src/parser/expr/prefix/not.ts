@@ -1,4 +1,4 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import { parserToken } from "@src/parser/token"
 import { parserAtomMapValue, parserAtomSequence, parserWhitespace } from "astroparse"
 
@@ -9,8 +9,8 @@ export const parserExprNot = parserAtomMapValue(
         parserExprPrefixNotToken,
         parserWhitespace
     ]),
-    () => (expr : ParserExpr) : ParserExpr => ({
-        exprType: "NOT",
+    () => (expr : ParserNodeExpr) : ParserNodeExpr => ({
+        nodeType: "EXPR_NOT",
         value: expr
     })
 )

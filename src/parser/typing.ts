@@ -1,4 +1,4 @@
-import type { ParserTyping } from "@src/parser/ast"
+import type { ParserNodeTyping } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserSymbol } from "@src/parser/symbol"
 import { parserToken } from "@src/parser/token"
@@ -44,7 +44,7 @@ const parserTypingTypeArgs = parserAtomMapValue(
     ([,, xs, ys]) => [...xs, ...ys]
 )
 
-export const parserTyping : Parser<ParserTyping, ParserError> = parserAtomMapValue(
+export const parserTyping : Parser<ParserNodeTyping, ParserError> = parserAtomMapValue(
     parserAtomSequence([
         parserSymbol,
         parserAtomEither([
@@ -52,5 +52,9 @@ export const parserTyping : Parser<ParserTyping, ParserError> = parserAtomMapVal
             parserAtomValue([])
         ])
     ]),
-    ([sym, args]) => ({name: sym, arguments: args})
+    ([sym, args]) : ParserNodeTyping => ({
+        nodeType: "TYPING",
+        name: sym,
+        arguments: args
+    })
 )

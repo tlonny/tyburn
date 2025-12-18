@@ -1,4 +1,4 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import { parserToken } from "@src/parser/token"
 import { parserAtomEither, parserAtomMapValue } from "astroparse"
 
@@ -9,8 +9,8 @@ export const parserExprBool = parserAtomMapValue(
     parserAtomEither([
         parserTrue,
         parserFalse
-    ]), (x) : ParserExpr => ({
-        exprType: "BOOL",
+    ]), (x) : ParserNodeExpr => ({
+        nodeType: "EXPR_BOOL",
         value: x === "true" ? "TRUE" : "FALSE"
     })
 )

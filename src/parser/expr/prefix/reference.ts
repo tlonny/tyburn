@@ -1,4 +1,4 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import { parserToken } from "@src/parser/token"
 import { parserAtomSequence, parserWhitespace, parserAtomMapValue } from "astroparse"
 
@@ -9,8 +9,8 @@ export const parserExprReference = parserAtomMapValue(
         parserExprPrefixReferenceToken,
         parserWhitespace
     ]),
-    () => (expr : ParserExpr) : ParserExpr => ({
-        exprType: "REFERENCE",
+    () => (expr : ParserNodeExpr) : ParserNodeExpr => ({
+        nodeType: "EXPR_REFERENCE",
         value: expr
     })
 )

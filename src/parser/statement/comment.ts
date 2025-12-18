@@ -1,4 +1,4 @@
-import type { ParserStatement } from "@src/parser/ast"
+import type { ParserNodeStatement } from "@src/parser/node"
 import { parserToken } from "@src/parser/token"
 import { parserAtomMany, parserAtomMapValue, parserAtomPredicate, parserAtomSequence, parserAtomCharacter, parserAtomTry, parserAtomMapError } from "astroparse"
 
@@ -23,8 +23,8 @@ export const parserStatementComment = parserAtomMapValue(
             () => { throw new Error("Unexpected error") }
         )
     ]),
-    ([, comment]) : ParserStatement => ({
-        statementType: "COMMENT",
+    ([, comment]) : ParserNodeStatement => ({
+        nodeType: "STATEMENT_COMMENT",
         comment: comment.join(""),
     })
 )

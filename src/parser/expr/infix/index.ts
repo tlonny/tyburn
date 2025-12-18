@@ -1,13 +1,13 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserExprInfixMultiply } from "@src/parser/expr/infix/multiply"
 import { type Parser, parserAtomSequence, parserAtomMany, parserAtomMapValue } from "astroparse"
 
 const parserExprInfixChain = (params: {
     parserInfix: (
-        parserNext : Parser<ParserExpr, ParserError>
-    ) => Parser<(expr : ParserExpr) => ParserExpr, ParserError>,
-    parserNext: Parser<ParserExpr, ParserError>
+        parserNext : Parser<ParserNodeExpr, ParserError>
+    ) => Parser<(expr : ParserNodeExpr) => ParserNodeExpr, ParserError>,
+    parserNext: Parser<ParserNodeExpr, ParserError>
 }) => parserAtomMapValue(
     parserAtomSequence([
         params.parserNext,
@@ -17,7 +17,7 @@ const parserExprInfixChain = (params: {
 )
 
 export const parserExprInfix = (params: {
-    parserCurrent: Parser<ParserExpr, ParserError>
+    parserCurrent: Parser<ParserNodeExpr, ParserError>
 }) => [
     parserExprInfixMultiply
 ]

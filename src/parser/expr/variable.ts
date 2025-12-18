@@ -1,11 +1,11 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import { parserSymbol } from "@src/parser/symbol"
 import { parserAtomMapValue } from "astroparse"
 
 export const parserExprVariable = parserAtomMapValue(
     parserSymbol,
-    (x) : ParserExpr => ({
-        exprType: "VARIABLE",
+    (x) : ParserNodeExpr => ({
+        nodeType: "EXPR_VARIABLE",
         value: x
     })
 )

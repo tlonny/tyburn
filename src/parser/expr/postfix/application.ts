@@ -1,4 +1,4 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserToken } from "@src/parser/token"
 import { type Parser, parserAtomMapValue, parserAtomSequence, parserAtomTry, parserWhitespace, parserAtomEither, parserAtomValue, parserAtomMany } from "astroparse"
@@ -8,7 +8,7 @@ const parserExprPostfixApplicationTokenClose = parserToken(")")
 const parserExprPostfixApplicationSeparator = parserToken(",")
 
 export const parserExprPostfixApplication = (
-    parserRoot : Parser<ParserExpr, ParserError>
+    parserRoot : Parser<ParserNodeExpr, ParserError>
 ) => parserAtomMapValue(
     parserAtomSequence([
         parserAtomTry(
@@ -40,8 +40,8 @@ export const parserExprPostfixApplication = (
         parserWhitespace,
         parserExprPostfixApplicationTokenClose
     ]),
-    ([,, xs, ys]) => (expr : ParserExpr) : ParserExpr => ({
-        exprType: "APPLICATION",
+    ([,, xs, ys]) => (expr : ParserNodeExpr) : ParserNodeExpr => ({
+        nodeType: "EXPR_APPLICATION",
         arguments: [... xs, ... ys],
         value: expr
     })

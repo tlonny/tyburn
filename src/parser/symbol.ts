@@ -1,5 +1,5 @@
 import type { ParserError } from "@src/parser/error"
-import type { ParserSymbol } from "@src/parser/ast"
+import type { ParserNodeSymbol } from "@src/parser/node"
 import {
     parserAtomMany,
     parserAtomMapValue,
@@ -41,7 +41,7 @@ const parserSymbolChunk = parserAtomMapValue(
     ([x, xs]) => [x, ...xs].join("")
 )
 
-export const parserSymbol : Parser<ParserSymbol, ParserError> = parserAtomMapError(
+export const parserSymbol : Parser<ParserNodeSymbol, ParserError> = parserAtomMapError(
     parserAtomMapValue(
         parserAtomSequence([
             parserSymbolChunk,
@@ -55,10 +55,11 @@ export const parserSymbol : Parser<ParserSymbol, ParserError> = parserAtomMapErr
                 )
             )
         ]),
-        ([x, xs]) : ParserSymbol => {
+        ([x, xs]) : ParserNodeSymbol => {
             const chunks = [x, ...xs]
 
             return {
+                nodeType: "SYMBOL",
                 name: chunks[chunks.length - 1] as string,
                 path: chunks.slice(0, chunks.length - 2)
             }

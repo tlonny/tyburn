@@ -1,4 +1,4 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserExprBool } from "@src/parser/expr/bool"
 import { parserExprInfix } from "@src/parser/expr/infix"
@@ -19,7 +19,7 @@ export const parserExprBase = parserAtomEither([
     () => parserAtomError<ParserError>({ errorType: "TYBURN::EXPR_MISSING" })
 ].map(x => x(parserExprDeferred)))
 
-export const parserExpr : Parser<ParserExpr, ParserError> = parserExprInfix({
+export const parserExpr : Parser<ParserNodeExpr, ParserError> = parserExprInfix({
     parserCurrent: parserExprPostfix({
         parserTop: parserExprDeferred,
         parserCurrent: parserExprPrefix({

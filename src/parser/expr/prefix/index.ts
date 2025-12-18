@@ -1,4 +1,4 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserExprNot } from "@src/parser/expr/prefix/not"
 import { parserExprReference } from "@src/parser/expr/prefix/reference"
@@ -10,7 +10,7 @@ const parserExprPrefixEither = parserAtomEither([
 ])
 
 export const parserExprPrefix = (params: {
-    parserCurrent : Parser<ParserExpr, ParserError>
+    parserCurrent : Parser<ParserNodeExpr, ParserError>
 }) => parserAtomMapValue(
     parserAtomSequence([
         parserAtomMany(parserExprPrefixEither),

@@ -1,4 +1,4 @@
-import type { ParserStatement } from "@src/parser/ast"
+import type { ParserNodeStatement } from "@src/parser/node"
 import { parserToken } from "@src/parser/token"
 import { parserAtomSequence, parserWhitespace, parserAtomMapValue } from "astroparse"
 
@@ -11,5 +11,5 @@ export const parserStatementContinue = parserAtomMapValue(
         parserWhitespace,
         parserTokenEnd
     ]),
-    () : ParserStatement => ({ statementType: "CONTINUE" })
+    () : ParserNodeStatement => ({ nodeType: "STATEMENT_CONTINUE" })
 )

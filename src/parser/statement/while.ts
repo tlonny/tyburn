@@ -1,7 +1,7 @@
-import type { ParserStatement } from "@src/parser/ast"
+import type { ParserNodeStatement } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserExpr } from "@src/parser/expr"
-import { parserBlock } from "@src/parser/statement/block"
+import { parserStatementBlock } from "@src/parser/statement/block"
 import { parserToken } from "@src/parser/token"
 import { parserAtomMapValue, parserAtomSequence, parserWhitespace, type Parser } from "astroparse"
 
@@ -12,7 +12,7 @@ const parseTokenBraceOpen = parserToken("{")
 const parseTokenBraceClose = parserToken("}")
 
 export const parserStatementWhile = (params : {
-    parserStatement : Parser<ParserStatement, ParserError>
+    parserStatement : Parser<ParserNodeStatement, ParserError>
 }) => parserAtomMapValue(
     parserAtomSequence([
         parseTokenWhile,
@@ -25,12 +25,12 @@ export const parserStatementWhile = (params : {
         parserWhitespace,
         parseTokenBraceOpen,
         parserWhitespace,
-        parserBlock(params),
+        parserStatementBlock(params),
         parserWhitespace,
         parseTokenBraceClose,
     ]),
-    ([,,,, expr,,,,,, block]) : ParserStatement => ({
-        statementType: "WHILE",
+    ([,,,, expr,,,,,, block]) : ParserNodeStatement => ({
+        nodeType: "STATEMENT_WHILE",
         condition: expr,
         block: block
     })

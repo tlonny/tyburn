@@ -1,6 +1,5 @@
-import { parserBlock } from "@src/parser/statement/block"
-import { parserStatement } from "@src/parser/statement"
 import type { ParseInput } from "astroparse"
+import { parser } from "@src/parser"
 
 const input : ParseInput = {
     data: `
@@ -13,9 +12,15 @@ const input : ParseInput = {
     cursor: 0
 }
 
-console.log(
-    JSON.stringify(
-        parserBlock({ parserStatement })(input),
-        null, 4
-    )
-)
+const result = parser(input)
+
+if (result.success) {
+    console.log(JSON.stringify(result.value, null, 4))
+} else {
+    console.error(result.error.errorType)
+    console.log([
+        result.input.data.slice(0, result.input.cursor),
+        ">>>",
+        result.input.data.slice(result.input.cursor)
+    ].join(""))
+}

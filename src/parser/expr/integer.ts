@@ -1,4 +1,4 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserToken } from "@src/parser/token"
 import {
@@ -37,8 +37,8 @@ const parserExprIntegerHex = parserAtomMapValue(
         parserExprIntegerCharHexInitial,
         parserAtomMany(parserExprIntegerCharHexFollow)
     ]),
-    ([, x, xs]) : ParserExpr => ({
-        exprType: "INTEGER",
+    ([, x, xs]) : ParserNodeExpr => ({
+        nodeType: "EXPR_INTEGER",
         base: "HEXADECIMAL",
         value: [x, ...xs].join("")
     })
@@ -49,8 +49,8 @@ const parserExprIntegerDec = parserAtomMapValue(
         parserExprIntegerDecCharInitial,
         parserAtomMany(parserExprIntegerDecCharFollow)
     ]),
-    ([x, xs]) : ParserExpr => ({
-        exprType: "INTEGER",
+    ([x, xs]) : ParserNodeExpr => ({
+        nodeType: "EXPR_INTEGER",
         base: "DECIMAL",
         value: [x, ...xs].join("")
     })

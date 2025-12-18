@@ -1,4 +1,4 @@
-import type { ParserExpr } from "@src/parser/ast"
+import type { ParserNodeExpr } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserToken } from "@src/parser/token"
 import { type Parser, parserAtomSequence, parserAtomTry, parserWhitespace, parserAtomMapValue } from "astroparse"
@@ -6,7 +6,7 @@ import { type Parser, parserAtomSequence, parserAtomTry, parserWhitespace, parse
 const parserExprInfixMultiplyTokenOperator = parserToken("*")
 
 export const parserExprInfixMultiply = (
-    parserNext : Parser<ParserExpr, ParserError>
+    parserNext : Parser<ParserNodeExpr, ParserError>
 ) => parserAtomMapValue(
     parserAtomSequence([
         parserAtomTry(
@@ -18,8 +18,8 @@ export const parserExprInfixMultiply = (
         parserWhitespace,
         parserNext
     ]),
-    ([,, x]) => (expr : ParserExpr) : ParserExpr => ({
-        exprType: "MULTIPLY",
+    ([,, x]) => (expr : ParserNodeExpr) : ParserNodeExpr => ({
+        nodeType: "EXPR_MULTIPLY",
         operandLeft: expr,
         operandRight: x
     })

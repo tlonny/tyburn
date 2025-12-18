@@ -1,4 +1,4 @@
-import type { ParserStatement } from "@src/parser/ast"
+import type { ParserNodeStatement } from "@src/parser/node"
 import { parserExpr } from "@src/parser/expr"
 import { parserSymbol } from "@src/parser/symbol"
 import { parserToken } from "@src/parser/token"
@@ -42,8 +42,8 @@ export const parserStatementVariableDefinition = parserAtomMapValue(
         ]),
         parserTokenEnd
     ]),
-    ([,, x,, y, z]) : ParserStatement => ({
-        statementType: "VARIABLE_DEFINITION",
+    ([,, x,, y, z]) : ParserNodeStatement => ({
+        nodeType: "STATEMENT_VARIABLE_DEFINITION",
         variable: x,
         typing: y,
         expression: z

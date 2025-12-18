@@ -1,4 +1,4 @@
-import type { ParserStatement } from "@src/parser/ast"
+import type { ParserNodeStatement } from "@src/parser/node"
 import type { ParserError } from "@src/parser/error"
 import { parserStatementBreak } from "@src/parser/statement/break"
 import { parserStatementComment } from "@src/parser/statement/comment"
@@ -9,7 +9,7 @@ import { parserAtomEither, parserAtomError, type ParseInput, type Parser } from 
 
 const parserStatementDeferred = (x: ParseInput) => parserStatement(x)
 
-export const parserStatement : Parser<ParserStatement, ParserError> = parserAtomEither([
+export const parserStatement : Parser<ParserNodeStatement, ParserError> = parserAtomEither([
     parserStatementWhile,
     () => parserStatementBreak,
     () => parserStatementContinue,
